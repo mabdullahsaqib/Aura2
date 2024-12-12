@@ -17,7 +17,6 @@ from interaction_history import interaction_history, handle_user_command
 from task_management import task_voice_interaction
 from web_browsing import web_browsing_voice_interaction
 from note_taking import note_voice_interaction
-from document_management import document_management_voice_interaction
 from custom_commands import check_and_execute_command
 from realtime_translation import translation_voice_interaction
 from email_management import email_voice_interaction
@@ -78,8 +77,6 @@ def activate_module(command):
         web_browsing_voice_interaction(command)
     elif "note" in command:
         note_voice_interaction(command)
-    elif "document" in command or "file" in command or "folder" in command or "directory" in command or "drive" in command:
-        document_management_voice_interaction(command)
     elif "translation" in command or "translate" in command:
         translation_voice_interaction()
     elif "email" in command or "mail" in command or "inbox" in command:
@@ -126,6 +123,32 @@ def main():
             break
         activate_module(command.lower())
 
+def test_main_with_console_input():
+    """
+    Main function to handle voice commands and activate modules.
+    """
+    greetings = ["Hello, how can I assist you today?", "Hi, what can I do for you?", "Hey, how can I help you?",
+                 "Greetings, what can I do for you?", "Hello, how can I help you today?"]
+    goodbyes = ["See you later!", "Goodbye, have a great day!", "Goodbye, take care!", "Goodbye, see you soon!",
+                "Goodbye, have a nice day!"]
+    speak(random.choice(greetings))
+
+    # Track last command time
+    last_command_time = time.time()
+
+    while True:
+        # Check inactivity
+        if time.time() - last_command_time >= INACTIVITY_THRESHOLD:
+            check_and_notify_tasks()
+            # Reset timer after notification
+            last_command_time = time.time()
+
+        command = input("Enter a command: ")
+        if "exit" in command.lower():
+            speak(random.choice(goodbyes))
+            break
+        activate_module(command.lower())
 
 if __name__ == "__main__":
-    main()
+    # main()
+    test_main_with_console_input()
