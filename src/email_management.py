@@ -1,14 +1,17 @@
 # email_management.py
 import base64
+import os
 from email.mime.text import MIMEText
+
+import google.generativeai as genai
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from utility import tts, recognizer
+
 from config import GEMINI_API_KEY, GMAIL_CREDENTIALS_PATH, GMAIL_TOKEN_PATH
-import google.generativeai as genai
+from utility import tts, recognizer
 
 # Initialize Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
@@ -17,6 +20,7 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
           'https://www.googleapis.com/auth/gmail.send']
+
 
 def authenticate_gmail():
     creds = None
@@ -31,6 +35,7 @@ def authenticate_gmail():
         with open(GMAIL_TOKEN_PATH, 'w') as token:
             token.write(creds.to_json())
     return creds
+
 
 def fetch_emails(service, max_results=5):
     try:
@@ -57,6 +62,7 @@ def fetch_emails(service, max_results=5):
         print(f"An error occurred: {error}")
         tts.speak("Failed to fetch emails. Please try again later.")
 
+
 def send_email(service, to_email, subject, message_text):
     try:
         message = MIMEText(message_text)
@@ -72,6 +78,7 @@ def send_email(service, to_email, subject, message_text):
         print(f"An error occurred: {error}")
         tts.speak("Failed to send the email. Please try again later.")
 
+
 def summarize_email(service, email_id):
     try:
         message = service.users().messages().get(userId='me', id=email_id).execute()
@@ -85,6 +92,7 @@ def summarize_email(service, email_id):
     except HttpError as error:
         print(f"An error occurred: {error}")
         tts.speak("Failed to summarize the email. Please try again later.")
+
 
 def send_email_with_generated_response(service, email_id):
     try:
@@ -106,6 +114,7 @@ def send_email_with_generated_response(service, email_id):
         print(f"An error occurred: {error}")
         tts.speak("Failed to generate and send the reply. Please try again later.")
 
+
 # Voice Interaction
 def email_voice_interaction(command):
     creds = authenticate_gmail()
@@ -113,7 +122,8 @@ def email_voice_interaction(command):
 
     if "fetch" in command or "emails" in command or "mails" in command or "inbox" in command:
         fetch_emails(service, 10)
-    elif ("send" in command or "compose" in command or "write" in command) and ("email" in command or "mail" in command):
+    elif ("send" in command or "compose" in command or "write" in command) and (
+            "email" in command or "mail" in command):
         tts.speak("Who is the recipient?")
         to_email = recognizer.listen()
         tts.speak("What is the subject?")

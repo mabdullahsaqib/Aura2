@@ -30,7 +30,8 @@ session_id, chat = interaction_history()
 
 # Constants
 INACTIVITY_THRESHOLD = 1800  # 30 minutes in seconds
-Entertainment_Commands = ["play", "pause", "stop", "resume", "skip", "next", "previous", "shuffle", "repeat", "look", "volume up",
+Entertainment_Commands = ["play", "pause", "stop", "resume", "skip", "next", "previous", "shuffle", "repeat", "look",
+                          "volume up",
                           "volume down", "increase", "decrease", "seek", "jump"]
 
 
@@ -93,33 +94,5 @@ def main():
         activate_module(command.lower())
 
 
-# def test_main_with_console_input():
-#     """
-#     Main function to handle voice commands and activate modules.
-#     """
-#     greetings = ["Hello, how can I assist you today?", "Hi, what can I do for you?", "Hey, how can I help you?",
-#                  "Greetings, what can I do for you?", "Hello, how can I help you today?"]
-#     goodbyes = ["See you later!", "Goodbye, have a great day!", "Goodbye, take care!", "Goodbye, see you soon!",
-#                 "Goodbye, have a nice day!"]
-#     tts.speak(random.choice(greetings))
-#
-#     # Track last command time
-#     last_command_time = time.time()
-#
-#     while True:
-#         # Check inactivity
-#         if time.time() - last_command_time >= INACTIVITY_THRESHOLD:
-#             check_and_notify_tasks()
-#             # Reset timer after notification
-#             last_command_time = time.time()
-#
-#         command = input("Enter a command: ")
-#         if "exit" in command.lower():
-#             tts.speak(random.choice(goodbyes))
-#             break
-#         activate_module(command.lower())
-
-
 if __name__ == "__main__":
     main()
-    # test_main_with_console_input()

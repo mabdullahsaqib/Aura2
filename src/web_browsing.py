@@ -1,13 +1,16 @@
 # web_browsing.py
 import webbrowser
+
 import google.generativeai as genai
 import requests
-from utility import tts, recognizer
+
 from config import GOOGLE_API_KEY, GOOGLE_CSE_ID, GEMINI_API_KEY
+from utility import tts, recognizer
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash-exp")
+
 
 # Perform a web search using Google Custom Search API
 def search_web(query, num_results=5):
@@ -41,6 +44,7 @@ def search_web(query, num_results=5):
         print(f"An error occurred while performing the search: {e}")
         return []
 
+
 # Displays search results in a readable format
 def display_results(results):
     print("\nSearch Results:")
@@ -49,6 +53,7 @@ def display_results(results):
         print(f"Title: {result['title']}")
         print(f"Link: {result['link']}")
         print(f"Snippet: {result['snippet']}\n")
+
 
 # Summarizes the snippets from search results using Gemini API
 def summarize_results_with_gemini(results):
@@ -59,6 +64,7 @@ def summarize_results_with_gemini(results):
         response = model.generate_content("Summarize the following text: " + snippets)
         return response.text
     return "No content available for summarization."
+
 
 # Opens a link from the search results
 def open_link(results):
@@ -71,6 +77,7 @@ def open_link(results):
         print(f"Opening link: {results[int(choice) - 1]['link']}")
     else:
         print("No link selected.")
+
 
 # Voice Interaction
 def web_browsing_voice_interaction(query):

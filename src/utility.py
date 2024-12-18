@@ -1,15 +1,17 @@
 # utility.py
 
 import pyaudio
-from openai import OpenAI
-from config import OPENAI_API_KEY
 import speech_recognition as sr
+from openai import OpenAI
+
+from config import OPENAI_API_KEY
 
 # Load OpenAI API key
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key in environment variables.")
 
 client = OpenAI(api_key=OPENAI_API_KEY)
+
 
 # Centralized text-to-speech
 class TextToSpeech:
@@ -22,14 +24,14 @@ class TextToSpeech:
 
     def speak(self, text):
         with client.audio.speech.with_streaming_response.create(
-            model="tts-1", voice="shimmer", input=text, response_format="pcm"
+                model="tts-1", voice="shimmer", input=text, response_format="pcm"
         ) as response:
             for chunk in response.iter_bytes(1024):
                 self.stream.write(chunk)
 
+
 # Centralized speech recognition
 class SpeechRecognizer:
-
     recognizer = None
 
     def __init__(self):

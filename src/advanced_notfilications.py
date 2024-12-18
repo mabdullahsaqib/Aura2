@@ -1,11 +1,14 @@
 # advanced_notifications.py
 from datetime import datetime, timedelta
+
 from firebase_admin import firestore
 from plyer import notification
+
 from utility import tts
 
 # Firebase initialization
 db = firestore.client()
+
 
 def send_desktop_notification(title, message):
     """
@@ -19,6 +22,7 @@ def send_desktop_notification(title, message):
     )
     print("Desktop notification sent.")
     tts.speak(f"Notification sent: {title}")
+
 
 def check_and_notify_tasks():
     """

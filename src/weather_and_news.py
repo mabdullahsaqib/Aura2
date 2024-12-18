@@ -1,13 +1,15 @@
 # weather_and_news.py
 import requests
-from utility import tts, recognizer
+
 from config import WEATHER_API_KEY, WEATHER_API_HOST, NEWS_API_KEY
+from utility import tts, recognizer
 
 # Weather API setup
 WEATHER_API_URL = "https://weatherapi-com.p.rapidapi.com/current.json"
 
 # News API setup
 NEWS_API_URL = "https://newsapi.org/v2/top-headlines"
+
 
 # Weather fetching function
 def get_weather(location):
@@ -41,6 +43,7 @@ def get_weather(location):
         print(f"Error fetching weather data: {e}")
         return None
 
+
 # News fetching function
 def get_news(country="us", category="general", num_articles=5):
     params = {
@@ -65,6 +68,7 @@ def get_news(country="us", category="general", num_articles=5):
     except requests.RequestException as e:
         print(f"Error fetching news data: {e}")
         return None
+
 
 # Voice Interaction
 def weather_and_news_voice_interaction(command):

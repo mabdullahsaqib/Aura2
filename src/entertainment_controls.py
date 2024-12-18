@@ -2,11 +2,13 @@
 import os
 import subprocess
 import webbrowser
+
 import spotipy
 from googleapiclient.discovery import build
 from spotipy.oauth2 import SpotifyOAuth
-from utility import tts, recognizer
+
 from config import SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI, YOUTUBE_API_KEY
+from utility import tts, recognizer
 
 # Initialize Spotify and YouTube APIs
 scope = "user-read-playback-state user-modify-playback-state user-read-currently-playing"
@@ -16,12 +18,14 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
                                                scope=scope))
 youtube = build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
 
+
 # Function for local media playback
 def play_local_media(file_path):
     if os.path.isfile(file_path):
         subprocess.Popen(file_path, shell=True)
     else:
         print("File does not exist:", file_path)
+
 
 # YouTube functions
 def search_youtube_video(query):
@@ -38,12 +42,14 @@ def search_youtube_video(query):
     else:
         return None
 
+
 def open_youtube_video(query):
     video_url = search_youtube_video(query)
     if video_url:
         webbrowser.open(video_url)
     else:
         print("Video not found.")
+
 
 # Spotify control functions
 def play_spotify_track(track_name):
@@ -52,26 +58,34 @@ def play_spotify_track(track_name):
         track_uri = results["tracks"]["items"][0]["uri"]
         sp.start_playback(uris=[track_uri])
 
+
 def pause_spotify():
     sp.pause_playback()
+
 
 def resume_spotify():
     sp.start_playback()
 
+
 def skip_spotify_track():
     sp.next_track()
+
 
 def previous_spotify_track():
     sp.previous_track()
 
+
 def volume_up():
     sp.volume(10)
+
 
 def volume_down():
     sp.volume(-10)
 
+
 def repeat_track():
     sp.repeat("track")
+
 
 # Handle dynamic commands
 def handle_command(command, input_text=None):
@@ -108,6 +122,7 @@ def handle_command(command, input_text=None):
 
     else:
         print(f"Unknown command: {command}")
+
 
 # Voice Interaction
 def entertainment_control_voice_interaction(command):

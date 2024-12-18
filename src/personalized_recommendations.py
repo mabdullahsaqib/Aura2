@@ -1,10 +1,12 @@
 # personalized_recommendations.py
 import random
 from datetime import datetime, timedelta
+
 import google.generativeai as genai
 from firebase_admin import firestore
-from utility import tts, recognizer
+
 from config import GEMINI_API_KEY
+from utility import tts
 from weather_and_news import get_news
 
 # Initialize Firestore
@@ -12,10 +14,11 @@ db = firestore.client()
 
 # Initialize Gemini model
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash-exp")
 
 # Example categories for recommendations
 INTEREST_CATEGORIES = ["technology", "health", "entertainment", "business", "sports"]
+
 
 # Store user preferences
 def update_preferences(user_id, preference_type, preference):
@@ -26,6 +29,7 @@ def update_preferences(user_id, preference_type, preference):
     else:
         doc_ref.set({preference_type: preference})
 
+
 # Fetch user preferences
 def fetch_preferences(user_id):
     doc_ref = db.collection("user_preferences").document(user_id)
@@ -35,11 +39,13 @@ def fetch_preferences(user_id):
     else:
         return {}
 
+
 # Recommend news based on preferences
 def recommend_news(user_id):
     preferences = fetch_preferences(user_id)
     news_category = preferences.get("news_category", random.choice(INTEREST_CATEGORIES))
     return get_news(category=news_category)
+
 
 # Recommend tasks based on user's activity
 def recommend_tasks(user_id):
@@ -54,6 +60,7 @@ def recommend_tasks(user_id):
                                       days=1))
     ]
     return recommended_tasks if recommended_tasks else ["No urgent tasks!"]
+
 
 # Recommend general activities (e.g., personalized greetings)
 def general_recommendations(user_id):
@@ -71,9 +78,10 @@ def general_recommendations(user_id):
 
     return gemini_recommendation
 
+
 # Voice Interaction
 def recommendations_voice_interaction(command):
-    user_id = "teuff"
+    user_id = "alberto"
     if "news" in command.lower():
         news = recommend_news(user_id)
         tts.speak("Here are some news articles you might find interesting:")
@@ -93,4 +101,5 @@ def recommendations_voice_interaction(command):
         tts.speak(recommendation)
 
     else:
-        tts.speak("Sorry, I didn't quite catch that. Please specify if you want news, tasks, or general recommendations.")
+        tts.speak(
+            "Sorry, I didn't quite catch that. Please specify if you want news, tasks, or general recommendations.")

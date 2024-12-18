@@ -1,10 +1,12 @@
 # task_management.py
 from datetime import datetime
+
 import dateparser
-from firebase_admin import firestore
-from utility import tts, recognizer
-from config import GEMINI_API_KEY
 import google.generativeai as genai
+from firebase_admin import firestore
+
+from config import GEMINI_API_KEY
+from utility import tts, recognizer
 
 # Initialize Firestore
 db = firestore.client()
@@ -13,12 +15,14 @@ db = firestore.client()
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
+
 # Function to infer priority and category using Gemini
 def infer_task_details(task_description):
     response = model.generate_content(
         f"What is the priority and category of this task? Only provide the priority (high,medium,low) as priority : and category (work, personal) as category : , nothing else, no description, no extra information. : {task_description}"
     )
     return response.text.lower()
+
 
 # Add a task
 def add_task_from_input(task_description, deadline):
@@ -42,6 +46,7 @@ def add_task_from_input(task_description, deadline):
     doc_ref.set(task_data)
     tts.speak(f"Task '{task_description}' added with priority: {priority} and category: {category}")
 
+
 # Get tasks by priority
 def get_tasks_by_priority(priority):
     tasks = db.collection("tasks").where("priority", "==", priority).stream()
@@ -51,6 +56,7 @@ def get_tasks_by_priority(priority):
     for task in task_list:
         print(f"{task['title']} with deadline on {task['deadline']}")
     return task_list
+
 
 # Get tasks by category
 def get_tasks_by_category(category):
@@ -62,6 +68,7 @@ def get_tasks_by_category(category):
         print(f"{task['title']} with deadline on {task['deadline']}")
     return task_list
 
+
 # Get upcoming tasks
 def get_upcoming_tasks(deadline_date):
     tasks = db.collection("tasks").where("deadline", "<=", deadline_date).order_by("deadline").stream()
@@ -72,10 +79,12 @@ def get_upcoming_tasks(deadline_date):
         print(f"{task['title']} with deadline on {task['deadline']}")
     return upcoming_tasks
 
+
 # Delete a task
 def delete_task(task_title):
     db.collection("tasks").document(task_title).delete()
     tts.speak(f"Task '{task_title}' deleted successfully!")
+
 
 # Voice Interaction
 def task_voice_interaction(command):

@@ -1,9 +1,11 @@
 # custom_commands.py
 import subprocess
-from firebase_admin import firestore
+
 import google.generativeai as genai
-from utility import tts, recognizer
+from firebase_admin import firestore
+
 from config import GEMINI_API_KEY
+from utility import tts, recognizer
 
 # Initialize Firestore
 db = firestore.client()
@@ -11,6 +13,7 @@ db = firestore.client()
 # Configure Gemini
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
+
 
 def check_and_execute_command(command_name):
     """

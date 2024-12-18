@@ -1,23 +1,27 @@
 # meeting_summaries.py
 import os
 from pathlib import Path
-from firebase_admin import firestore
+
 import google.generativeai as genai
 import whisper
-from utility import tts, recognizer
+from firebase_admin import firestore
+
 from config import GEMINI_API_KEY
+from utility import tts, recognizer
 
 # Initialize Firestore
 db = firestore.client()
 
 # Initialize GEMINI
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash-exp")
+
 
 # Initialize Whisper Model
 def load_model():
     whisper_model = whisper.load_model("base")
     return whisper_model
+
 
 # Transcribe Audio Function
 def transcribe_audio(whisper_model, file_path):
@@ -26,11 +30,13 @@ def transcribe_audio(whisper_model, file_path):
     print("Transcript :", transcript)
     return transcript
 
+
 # Summarize Transcript with GEMINI
 def summarize_text(text):
     response = model.generate_content("Summarize the following meeting transcript, briefly: " + text)
     print("Summary :", response.text)
     return response.text
+
 
 # Store Meeting Summary in Firestore
 def store_summary(meeting_title, transcript, summary):
@@ -42,6 +48,7 @@ def store_summary(meeting_title, transcript, summary):
     })
     print(f"Meeting '{meeting_title}' summary saved successfully.")
     tts.speak(f"Meeting summary for '{meeting_title}' has been saved successfully.")
+
 
 # Main Function to Transcribe, Summarize, and Store
 def process_meeting_summary(file_path, meeting_title):
@@ -61,6 +68,7 @@ def process_meeting_summary(file_path, meeting_title):
         print(f"Error occurred: {e}")
         tts.speak("An error occurred while processing the meeting summary. Please try again.")
 
+
 # Search for File by Name
 def findfile(name, path):
     """Searches for a file by name in a specified base directory."""
@@ -72,12 +80,14 @@ def findfile(name, path):
     print(f"File '{name}' not found in '{path}'.")
     return None
 
+
 # Retrieve Meeting Summaries
 def getmeetings():
     meetings = db.collection("meeting_summaries").stream()
     for meeting in meetings:
         print(meeting.to_dict())
     tts.speak("All meeting summaries have been retrieved. Check the console for details.")
+
 
 # Retrieve Specific Meeting Summary
 def retrieve_a_meeting(title):
@@ -89,6 +99,7 @@ def retrieve_a_meeting(title):
     else:
         print(f"Meeting '{title}' not found in Firestore.")
         tts.speak(f"Meeting '{title}' was not found.")
+
 
 # Voice Interaction
 def meeting_summary_voice_interaction(command):
@@ -108,7 +119,7 @@ def meeting_summary_voice_interaction(command):
     else:
         tts.speak("What's the name of the audio file?")
         audio_file = recognizer.listen()
-        audio_file_path = findfile(audio_file, "C:/Meetings")
+        audio_file_path = findfile(audio_file, "Meetings")
         if audio_file_path:
             tts.speak(f"Processing the meeting summary from the file located at {audio_file_path}.")
             title = Path(audio_file_path).stem

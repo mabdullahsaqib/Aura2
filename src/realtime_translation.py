@@ -1,7 +1,8 @@
 # realtime_translation.py
-from utility import tts, recognizer
-from config import GEMINI_API_KEY
 import google.generativeai as genai
+
+from config import GEMINI_API_KEY
+from utility import tts, recognizer
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
@@ -20,6 +21,7 @@ model = genai.GenerativeModel(
     generation_config=generation_config,
 )
 
+
 def translate_text(text, target_language="en"):
     """
     Translates text to a specified target language.
@@ -34,7 +36,7 @@ def translate_text(text, target_language="en"):
     try:
 
         response = model.generate_content(f"""
-        Translate the following text to {target_language}:
+        Translate the following text to {target_language}. Don't include the original text in the response. :
         {text}
         """)
         translated_text = response.text
@@ -43,6 +45,7 @@ def translate_text(text, target_language="en"):
     except Exception as e:
         print(f"Error during translation: {e}")
         return None
+
 
 # Voice Interaction
 def translation_voice_interaction():
@@ -64,18 +67,18 @@ def translation_voice_interaction():
 
         # Ask the user for the target language
         # tts.speak("Which language would you like to translate to? For example, say 'French', 'Spanish', or 'English'.")
-        target_language = "english" #recognizer.listen().lower()
+        # target_language = "english"  # recognizer.listen().lower()
 
         # Map spoken language names to language codes
-        language_map = {
-            "english": "en",
-            "french": "fr",
-            "spanish": "es",
-            "german": "de",
-            "italian": "it"
-        }
+        # language_map = {
+        #     "english": "en",
+        #     "french": "fr",
+        #     "spanish": "es",
+        #     "german": "de",
+        #     "italian": "it"
+        # }
 
-        language_code = language_map.get(target_language, "en")
+        language_code = "en "  # language_map.get(target_language, "en")
 
         translated_text = translate_text(text_to_translate, target_language=language_code)
         if translated_text:
