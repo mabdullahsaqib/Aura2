@@ -73,8 +73,8 @@ def get_news(country="us", category="general", num_articles=5):
 # Voice Interaction
 def weather_and_news_voice_interaction(command):
     if "weather" in command:
-        tts.speak("Please specify the location for weather information.")
-        location = recognizer.listen()
+        # tts.speak("Please specify the location for weather information.")
+        location = "Pheonix" #recognizer.listen()
         weather_info = get_weather(location)
         if weather_info:
             tts.speak(

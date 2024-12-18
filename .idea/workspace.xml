@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="a little testing and fixes, will check interaction history next" />
+    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="Finish setup" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,7 +80,7 @@
       <workItem from="1734063617778" duration="7000" />
       <workItem from="1734164681092" duration="4461000" />
       <workItem from="1734509285613" duration="1943000" />
-      <workItem from="1734520306374" duration="1470000" />
+      <workItem from="1734520306374" duration="2564000" />
     </task>
     <task id="LOCAL-00001" summary="streamed speech using tts-1">
       <option name="closed" value="true" />
@@ -114,7 +114,23 @@
       <option name="project" value="LOCAL" />
       <updated>1734522252165</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="chat stuff">
+      <option name="closed" value="true" />
+      <created>1734522839007</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1734522839007</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Finish setup">
+      <option name="closed" value="true" />
+      <created>1734523443655</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1734523443655</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,7 +141,9 @@
     <MESSAGE value="centralized sr and tts" />
     <MESSAGE value="voice interaction with utility" />
     <MESSAGE value="a little testing and fixes, will check interaction history next" />
-    <option name="LAST_COMMIT_MESSAGE" value="a little testing and fixes, will check interaction history next" />
+    <MESSAGE value="chat stuff" />
+    <MESSAGE value="Finish setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish setup" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Aura2$speech.coverage" NAME="speech Coverage Results" MODIFIED="1734173731109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
