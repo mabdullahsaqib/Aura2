@@ -30,8 +30,7 @@ session_id, chat = interaction_history()
 
 # Constants
 INACTIVITY_THRESHOLD = 1800  # 30 minutes in seconds
-Entertainment_Commands = ["play", "pause", "stop", "resume", "skip", "next", "previous", "shuffle", "repeat", "look"
-                                                                                                              "volume up",
+Entertainment_Commands = ["play", "pause", "stop", "resume", "skip", "next", "previous", "shuffle", "repeat", "look", "volume up",
                           "volume down", "increase", "decrease", "seek", "jump"]
 
 
@@ -39,8 +38,6 @@ def activate_module(command):
     """
     Activate the appropriate module based on the user's command.
     """
-
-    response = handle_user_command(session_id, command, chat)
 
     if "task" in command:
         task_voice_interaction(command)
@@ -64,6 +61,7 @@ def activate_module(command):
     elif "custom" in command or "execute" in command or "run" in command or "perform" in command or "open" in command or "launch" in command or "start" in command:
         check_and_execute_command(command)
     else:
+        response = handle_user_command(session_id, command, chat)
         print(response)
         tts.speak(response)
 
