@@ -1,20 +1,13 @@
-import pyttsx3
+# weather_and_news.py
 import requests
-import speech_recognition as sr
-
+from utility import tts, recognizer
 from config import WEATHER_API_KEY, WEATHER_API_HOST, NEWS_API_KEY
-
-# Initialize recognizer and text-to-speech
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-engine.setProperty('rate', 250)  # Adjust speaking rate if needed
 
 # Weather API setup
 WEATHER_API_URL = "https://weatherapi-com.p.rapidapi.com/current.json"
 
 # News API setup
 NEWS_API_URL = "https://newsapi.org/v2/top-headlines"
-
 
 # Weather fetching function
 def get_weather(location):
@@ -48,7 +41,6 @@ def get_weather(location):
         print(f"Error fetching weather data: {e}")
         return None
 
-
 # News fetching function
 def get_news(country="us", category="general", num_articles=5):
     params = {
@@ -74,49 +66,28 @@ def get_news(country="us", category="general", num_articles=5):
         print(f"Error fetching news data: {e}")
         return None
 
-
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
-
-
-def listen():
-    with sr.Microphone() as source:
-        while True:
-            print("Listening...")
-            audio = recognizer.listen(source)
-            try:
-                command = recognizer.recognize_google(audio)
-                print("Command : " + command)
-                return command
-            except sr.WaitTimeoutError:
-                continue
-            except sr.UnknownValueError:
-                continue
-            except sr.RequestError:
-                speak("Voice service unavailable.")
-                return ""
-
-
-# Function to handle voice commands for Weather and News
+# Voice Interaction
 def weather_and_news_voice_interaction(command):
     if "weather" in command:
-        weather_info = get_weather("Canada")
+        tts.speak("Please specify the location for weather information.")
+        location = recognizer.listen()
+        weather_info = get_weather(location)
         if weather_info:
-            speak(
+            tts.speak(
                 f"The weather in {weather_info['location']} is {weather_info['temperature']} degrees Celsius, {weather_info['condition']}.")
-            speak(
+            tts.speak(
                 f"The humidity is {weather_info['humidity']}%, and the wind speed is {weather_info['wind_speed']} kilometers per hour.")
         else:
-            speak("Sorry, I couldn't fetch the weather information.")
+            tts.speak("Sorry, I couldn't fetch the weather information.")
 
     elif "news" in command:
-        speak("Fetching the latest news...")
+        tts.speak("Fetching the latest news...")
         news_headlines = get_news(num_articles=5)
         if news_headlines:
-            speak(f"Here are the top 5 headlines:")
+            tts.speak("Here are the top 5 headlines:")
             for i, article in enumerate(news_headlines, 1):
                 print(f"Headline {i}: {article['title']}.")
                 print(f"Description: {article['description']}")
+                tts.speak(f"Headline {i}: {article['title']}.")
         else:
-            speak("Sorry, I couldn't fetch the news.")
+            tts.speak("Sorry, I couldn't fetch the news.")

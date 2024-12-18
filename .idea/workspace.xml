@@ -4,18 +4,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="">
+    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="streamed speech using tts-1">
+      <change afterPath="$PROJECT_DIR$/src/utility.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/voice_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/voice_interaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/advanced_notfilications.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/advanced_notfilications.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/email_management.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entertainment_controls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entertainment_controls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/note_taking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/note_taking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/personalized_recommendations.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/personalized_recommendations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/realtime_translation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/realtime_translation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/speech.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/task_management.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/weather_and_news.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/weather_and_news.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/web_browsing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/web_browsing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;mabdullahsaqib&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/mabdullahsaqib/Aura2.git&quot;,
+    &quot;accountId&quot;: &quot;d99bee1d-7474-47d7-9cc9-eaa73c7cd567&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -27,7 +56,9 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.email_management.executor&quot;: &quot;Run&quot;,
     &quot;Python.meeting_summaries.executor&quot;: &quot;Run&quot;,
+    &quot;Python.speech.executor&quot;: &quot;Run&quot;,
     &quot;Python.voice_interaction.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
@@ -60,25 +91,31 @@
       <workItem from="1734024560681" duration="7000" />
       <workItem from="1734061484261" duration="677000" />
       <workItem from="1734063617778" duration="7000" />
+      <workItem from="1734164681092" duration="4461000" />
+      <workItem from="1734509285613" duration="1073000" />
     </task>
+    <task id="LOCAL-00001" summary="streamed speech using tts-1">
+      <option name="closed" value="true" />
+      <created>1734173793251</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1734173793251</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/email_management.py</url>
-          <line>37</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="streamed speech using tts-1" />
+    <option name="LAST_COMMIT_MESSAGE" value="streamed speech using tts-1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Aura2$voice_interaction.coverage" NAME="voice_interaction Coverage Results" MODIFIED="1734024472453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Aura2$speech.coverage" NAME="speech Coverage Results" MODIFIED="1734173731109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Aura2$email_management.coverage" NAME="email_management Coverage Results" MODIFIED="1734173870643" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Aura2$voice_interaction.coverage" NAME="voice_interaction Coverage Results" MODIFIED="1734172202002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Aura2$meeting_summaries.coverage" NAME="meeting_summaries Coverage Results" MODIFIED="1734023914979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>

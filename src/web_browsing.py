@@ -1,33 +1,16 @@
+# web_browsing.py
 import webbrowser
-
 import google.generativeai as genai
-import pyttsx3
 import requests
-import speech_recognition as sr
-
+from utility import tts, recognizer
 from config import GOOGLE_API_KEY, GOOGLE_CSE_ID, GEMINI_API_KEY
-
-# Initialize recognizer and text-to-speech
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-engine.setProperty('rate', 250)  # Adjust speaking rate if needed
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
-
+# Perform a web search using Google Custom Search API
 def search_web(query, num_results=5):
-    """
-    Perform a web search using Google Custom Search API.
-
-    Parameters:
-        query (str): The search query.
-        num_results (int): Number of results to return (default is 5).
-
-    Returns:
-        list: A list of dictionaries containing titles, links, and snippets of search results.
-    """
     search_url = "https://www.googleapis.com/customsearch/v1"
     params = {
         "key": GOOGLE_API_KEY,
@@ -58,14 +41,8 @@ def search_web(query, num_results=5):
         print(f"An error occurred while performing the search: {e}")
         return []
 
-
+# Displays search results in a readable format
 def display_results(results):
-    """
-    Displays search results in a readable format.
-
-    Parameters:
-        results (list): List of search results.
-    """
     print("\nSearch Results:")
     for i, result in enumerate(results, start=1):
         print(f"\nResult {i}:")
@@ -73,17 +50,8 @@ def display_results(results):
         print(f"Link: {result['link']}")
         print(f"Snippet: {result['snippet']}\n")
 
-
+# Summarizes the snippets from search results using Gemini API
 def summarize_results_with_gemini(results):
-    """
-    Summarizes the snippets from search results using Gemini API.
-
-    Parameters:
-        results (list): List of search results.
-
-    Returns:
-        str: Summarized text of search result snippets.
-    """
     snippets = " ".join([result["snippet"] for result in results])
 
     if snippets:
@@ -92,72 +60,40 @@ def summarize_results_with_gemini(results):
         return response.text
     return "No content available for summarization."
 
-
+# Opens a link from the search results
 def open_link(results):
-    """
-    Allows the user to choose and open a link from the search results.
-
-    Parameters:
-        results (list): List of search results.
-    """
     for i, result in enumerate(results, start=1):
         print(f"{i}. {result['title']} - {result['link']}")
-    speak("Please select a link by saying the corresponding number.")
-    choice = listen()
+    tts.speak("Please select a link by saying the corresponding number.")
+    choice = recognizer.listen()
     if choice.isdigit() and 1 <= int(choice) <= len(results):
         webbrowser.open(results[int(choice) - 1]["link"])
         print(f"Opening link: {results[int(choice) - 1]['link']}")
     else:
         print("No link selected.")
 
-
-def speak(text):
-    """Convert text to speech."""
-    engine.say(text)
-    engine.runAndWait()
-
-
-def listen():
-    """Capture audio input from user."""
-    with sr.Microphone() as source:
-        print("Listening...")
-        audio = recognizer.listen(source)
-    try:
-        return recognizer.recognize_google(audio)
-    except sr.UnknownValueError:
-        speak("I didn't catch that.")
-        return ""
-    except sr.RequestError:
-        speak("Voice service unavailable.")
-        return ""
-
-
+# Voice Interaction
 def web_browsing_voice_interaction(query):
-    """
-    Voice interaction for the Web Browsing Module.
-    Handles search, displays results, summarizes, and opens links based on voice commands.
-    """
-
     if query:
         # Fetch search results
-        speak(f"Searching for {query}.")
+        tts.speak(f"Searching for {query}.")
         results = search_web(query)
 
         # Display results
-        speak("Here are the top search results.")
+        tts.speak("Here are the top search results.")
         display_results(results)
 
         # Summarize results with Gemini
-        speak("Would you like a summary of the results?")
-        if "yes" in listen().lower():
+        tts.speak("Would you like a summary of the results?")
+        if "yes" in recognizer.listen().lower():
             summary = summarize_results_with_gemini(results)
-            speak("Here is a summary of the search results.")
+            tts.speak("Here is a summary of the search results.")
             print("\nSummary of Search Results:\n", summary)
 
         # Open a link if requested
-        speak("Would you like to open any of these links?")
-        response = listen().lower()
+        tts.speak("Would you like to open any of these links?")
+        response = recognizer.listen().lower()
         if "yes" in response:
             open_link(results)
         else:
-            speak("Returning to search query mode. Please provide another query or say 'exit' to quit.")
+            tts.speak("Returning to search query mode. Please provide another query or say 'exit' to quit.")

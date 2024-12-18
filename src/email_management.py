@@ -1,31 +1,22 @@
+# email_management.py
 import base64
-import os.path
 from email.mime.text import MIMEText
-
-import google.generativeai as genai  # Ensure Gemini API client is imported
-import pyttsx3
-import speech_recognition as sr
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-
+from utility import tts, recognizer
 from config import GEMINI_API_KEY, GMAIL_CREDENTIALS_PATH, GMAIL_TOKEN_PATH
-
-# Initialize recognizer and text-to-speech
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-engine.setProperty('rate', 250)  # Adjust speaking rate if needed
-
-# Define the Gmail API scope
-SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
-          'https://www.googleapis.com/auth/gmail.send']
+import google.generativeai as genai
 
 # Initialize Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
+# Define the Gmail API scope
+SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
+          'https://www.googleapis.com/auth/gmail.send']
 
 def authenticate_gmail():
     creds = None
@@ -37,10 +28,9 @@ def authenticate_gmail():
         else:
             flow = InstalledAppFlow.from_client_secrets_file(GMAIL_CREDENTIALS_PATH, SCOPES)
             creds = flow.run_local_server(port=0)
-        with open('token.json', 'w') as token:
+        with open(GMAIL_TOKEN_PATH, 'w') as token:
             token.write(creds.to_json())
     return creds
-
 
 def fetch_emails(service, max_results=5):
     try:
@@ -48,33 +38,24 @@ def fetch_emails(service, max_results=5):
         messages = results.get('messages', [])
 
         if not messages:
-            print("No messages found.")
+            tts.speak("No messages found in your inbox.")
             return
 
         for msg in messages:
             message = service.users().messages().get(userId='me', id=msg['id']).execute()
             headers = {header['name']: header['value'] for header in message['payload']['headers']}
-            id = message['id']
             sender = headers.get("From", "Unknown Sender")
-            receiver = headers.get("To", "Unknown Receiver")
             subject = headers.get("Subject", "No Subject")
             snippet = message['snippet']
 
-            print(f"Email ID: {id}")
             print(f"From: {sender}")
-            print(f"To: {receiver}")
             print(f"Subject: {subject}")
             print(f"Snippet: {snippet}")
-
-            # Check for attachments
-            has_attachment = any(part.get('filename') for part in message['payload'].get('parts', []))
-            if has_attachment:
-                print("This email has attachments.")
-            print("=" * 40)
+            tts.speak(f"Email from {sender}, subject: {subject}")
 
     except HttpError as error:
         print(f"An error occurred: {error}")
-
+        tts.speak("Failed to fetch emails. Please try again later.")
 
 def send_email(service, to_email, subject, message_text):
     try:
@@ -86,9 +67,10 @@ def send_email(service, to_email, subject, message_text):
         send_message = {'raw': raw_message}
         sent_message = service.users().messages().send(userId='me', body=send_message).execute()
         print(f"Message sent! Id: {sent_message['id']}")
+        tts.speak("Your email has been sent successfully.")
     except HttpError as error:
         print(f"An error occurred: {error}")
-
+        tts.speak("Failed to send the email. Please try again later.")
 
 def summarize_email(service, email_id):
     try:
@@ -98,10 +80,11 @@ def summarize_email(service, email_id):
         # Summarize the email content using Gemini
         summary = model.generate_content(f"Summarize this email: {snippet}")
         print("Summary:", summary.text)
+        tts.speak(f"Summary of the email: {summary.text}")
 
     except HttpError as error:
         print(f"An error occurred: {error}")
-
+        tts.speak("Failed to summarize the email. Please try again later.")
 
 def send_email_with_generated_response(service, email_id):
     try:
@@ -121,52 +104,28 @@ def send_email_with_generated_response(service, email_id):
 
     except HttpError as error:
         print(f"An error occurred: {error}")
+        tts.speak("Failed to generate and send the reply. Please try again later.")
 
-
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
-
-
-def listen():
-    with sr.Microphone() as source:
-        while True:
-            print("Listening...")
-            audio = recognizer.listen(source)
-            try:
-                command = recognizer.recognize_google(audio)
-                print("Command : " + command)
-                return command
-            except sr.WaitTimeoutError:
-                continue
-            except sr.UnknownValueError:
-                continue
-            except sr.RequestError:
-                speak("Voice service unavailable.")
-                return ""
-
-
-# Example usage
+# Voice Interaction
 def email_voice_interaction(command):
     creds = authenticate_gmail()
     service = build('gmail', 'v1', credentials=creds)
 
     if "fetch" in command or "emails" in command or "mails" in command or "inbox" in command:
         fetch_emails(service, 10)
-    elif ("send" in command or "compose" in command or "write" in command) and (
-            "email" in command or "mail" in command):
-        speak("Who is the recipient?")
-        to_email = listen()
-        speak("What is the subject?")
-        subject = listen()
-        speak("What should I say?")
-        message_text = listen()
+    elif ("send" in command or "compose" in command or "write" in command) and ("email" in command or "mail" in command):
+        tts.speak("Who is the recipient?")
+        to_email = recognizer.listen()
+        tts.speak("What is the subject?")
+        subject = recognizer.listen()
+        tts.speak("What should I say?")
+        message_text = recognizer.listen()
         send_email(service, to_email, subject, message_text)
     elif "summarize" in command and ("email" in command or "mail" in command):
-        speak("What is the email ID?")
-        email_id = listen()
+        tts.speak("What is the email ID?")
+        email_id = recognizer.listen()
         summarize_email(service, email_id)
     elif "reply" in command and ("email" in command or "mail" in command):
-        speak("What is the email ID?")
-        email_id = listen()
+        tts.speak("What is the email ID?")
+        email_id = recognizer.listen()
         send_email_with_generated_response(service, email_id)

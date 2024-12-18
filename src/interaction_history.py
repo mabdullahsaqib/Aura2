@@ -1,8 +1,8 @@
+# interaction_history.py
 from datetime import datetime
-
-import google.generativeai as genai
 from firebase_admin import firestore
-
+import google.generativeai as genai
+from utility import tts
 from config import GEMINI_API_KEY
 
 # Initialize Firestore
@@ -10,7 +10,6 @@ db = firestore.client()
 
 # Configure GEMINI API
 genai.configure(api_key=GEMINI_API_KEY)
-
 
 # Function to get and increment session ID
 def get_next_session_id():
@@ -23,7 +22,6 @@ def get_next_session_id():
     next_id = current_id + 1
     counter_ref.set({"count": next_id})  # Update the counter in Firestore
     return next_id  # Use plain numeric ID
-
 
 # Retrieve Latest Session's History by ID
 def get_last_session_history():
@@ -43,9 +41,7 @@ def get_last_session_history():
                 history.append({"role": "user", "parts": message["command"]})
                 history.append({"role": "model", "parts": message["response"]})
 
-    # print("Retrieved history:", history)
     return history
-
 
 # GEMINI Interaction with History
 def initialize_chat_with_gemini(history):
@@ -53,25 +49,23 @@ def initialize_chat_with_gemini(history):
     chat = model.start_chat(history=history)
     return chat
 
-
 # Save or Append to Continuous Chat in Firestore
 def save_to_chat(session_id: int, command: str, response: str):
     chat_ref = db.collection("interaction_history").document(str(session_id))  # Use numeric ID as string
     new_message = {"timestamp": datetime.now(), "command": command, "response": response}
     chat_ref.set({"messages": firestore.ArrayUnion([new_message])}, merge=True)
 
-
 # Main Interaction Function
 def handle_user_command(session_id: int, command: str, chat):
     response = chat.send_message(command)
     save_to_chat(session_id, command, response.text)
-    # print(f"Aura: {response.text}")
+    tts.speak(f"Response: {response.text}")
     return response.text
-
 
 def interaction_history():
     # Initialize chat history
     session_id = get_next_session_id()
     history = get_last_session_history()
     chat = initialize_chat_with_gemini(history)
+    tts.speak("Interaction history loaded successfully.")
     return session_id, chat

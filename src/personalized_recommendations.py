@@ -1,11 +1,9 @@
+# personalized_recommendations.py
 import random
 from datetime import datetime, timedelta
-
 import google.generativeai as genai
-import pyttsx3
-import speech_recognition as sr
 from firebase_admin import firestore
-
+from utility import tts, recognizer
 from config import GEMINI_API_KEY
 from weather_and_news import get_news
 
@@ -19,35 +17,6 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 # Example categories for recommendations
 INTEREST_CATEGORIES = ["technology", "health", "entertainment", "business", "sports"]
 
-# Initialize recognizer and text-to-speech
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-engine.setProperty('rate', 250)
-
-
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
-
-
-def listen():
-    with sr.Microphone() as source:
-        while True:
-            print("Listening...")
-            audio = recognizer.listen(source)
-            try:
-                command = recognizer.recognize_google(audio)
-                print("Command : " + command)
-                return command
-            except sr.WaitTimeoutError:
-                continue
-            except sr.UnknownValueError:
-                continue
-            except sr.RequestError:
-                speak("Voice service unavailable.")
-                return ""
-
-
 # Store user preferences
 def update_preferences(user_id, preference_type, preference):
     doc_ref = db.collection("user_preferences").document(user_id)
@@ -56,7 +25,6 @@ def update_preferences(user_id, preference_type, preference):
         doc_ref.update({preference_type: preference})
     else:
         doc_ref.set({preference_type: preference})
-
 
 # Fetch user preferences
 def fetch_preferences(user_id):
@@ -67,13 +35,11 @@ def fetch_preferences(user_id):
     else:
         return {}
 
-
 # Recommend news based on preferences
 def recommend_news(user_id):
     preferences = fetch_preferences(user_id)
     news_category = preferences.get("news_category", random.choice(INTEREST_CATEGORIES))
     return get_news(category=news_category)
-
 
 # Recommend tasks based on user's activity
 def recommend_tasks(user_id):
@@ -88,7 +54,6 @@ def recommend_tasks(user_id):
                                       days=1))
     ]
     return recommended_tasks if recommended_tasks else ["No urgent tasks!"]
-
 
 # Recommend general activities (e.g., personalized greetings)
 def general_recommendations(user_id):
@@ -106,27 +71,26 @@ def general_recommendations(user_id):
 
     return gemini_recommendation
 
-
-# Example function to handle voice command input for recommendations
+# Voice Interaction
 def recommendations_voice_interaction(command):
     user_id = "teuff"
     if "news" in command.lower():
         news = recommend_news(user_id)
-        speak("Here are some news articles you might find interesting:")
+        tts.speak("Here are some news articles you might find interesting:")
         for article in news:
             print(article)
-
+            tts.speak(article['title'])
 
     elif "tasks" in command.lower():
         tasks = recommend_tasks(user_id)
-        speak("Here are some tasks you should consider completing soon:")
+        tts.speak("Here are some tasks you should consider completing soon:")
         for task in tasks:
             print(task)
-
+            tts.speak(task['title'])
 
     elif "recommendations" in command.lower() or "personalized" in command.lower() or "recommendation" in command.lower():
         recommendation = general_recommendations(user_id)
-        speak(recommendation)
+        tts.speak(recommendation)
 
     else:
-        return "Sorry, I didn't quite catch that. Please specify if you want news, tasks, or general recommendations."
+        tts.speak("Sorry, I didn't quite catch that. Please specify if you want news, tasks, or general recommendations.")

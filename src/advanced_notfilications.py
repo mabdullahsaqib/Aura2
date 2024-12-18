@@ -1,11 +1,11 @@
+# advanced_notifications.py
 from datetime import datetime, timedelta
-
 from firebase_admin import firestore
 from plyer import notification
+from utility import tts
 
 # Firebase initialization
 db = firestore.client()
-
 
 def send_desktop_notification(title, message):
     """
@@ -18,7 +18,7 @@ def send_desktop_notification(title, message):
         timeout=10  # Notification duration in seconds
     )
     print("Desktop notification sent.")
-
+    tts.speak(f"Notification sent: {title}")
 
 def check_and_notify_tasks():
     """
@@ -32,3 +32,4 @@ def check_and_notify_tasks():
         title = f"Upcoming Task: {task_data['title']}"
         message = f"Deadline: {task_data['deadline']}"
         send_desktop_notification(title, message)
+        tts.speak(f"You have an upcoming task: {task_data['title']} due by {task_data['deadline']}.")
