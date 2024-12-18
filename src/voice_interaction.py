@@ -2,11 +2,10 @@ import random
 import time
 
 import firebase_admin
-import pyttsx3
-import speech_recognition as sr
 from firebase_admin import credentials
 
 from config import FIREBASE_CREDENTIALS_PATH
+from utility import tts, recognizer
 
 # Firebase initialization
 cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)
@@ -26,11 +25,6 @@ from entertainment_controls import entertainment_control_voice_interaction
 from meeting_summaries import meeting_summary_voice_interaction
 from advanced_notfilications import check_and_notify_tasks
 
-# Initialize recognizer and text-to-speech
-recognizer = sr.Recognizer()
-engine = pyttsx3.init()
-engine.setProperty('rate', 250)  # Adjust speaking rate if needed
-
 # Initialize chat history
 session_id, chat = interaction_history()
 
@@ -39,29 +33,6 @@ INACTIVITY_THRESHOLD = 1800  # 30 minutes in seconds
 Entertainment_Commands = ["play", "pause", "stop", "resume", "skip", "next", "previous", "shuffle", "repeat", "look"
                                                                                                               "volume up",
                           "volume down", "increase", "decrease", "seek", "jump"]
-
-
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
-
-
-def listen():
-    with sr.Microphone() as source:
-        while True:
-            print("Listening...")
-            audio = recognizer.listen(source)
-            try:
-                command = recognizer.recognize_google(audio)
-                print("Command : " + command)
-                return command
-            except sr.WaitTimeoutError:
-                continue
-            except sr.UnknownValueError:
-                continue
-            except sr.RequestError:
-                speak("Voice service unavailable.")
-                return ""
 
 
 def activate_module(command):
@@ -94,7 +65,7 @@ def activate_module(command):
         check_and_execute_command(command)
     else:
         print(response)
-        speak(response)
+        tts.speak(response)
 
 
 def main():
@@ -105,7 +76,7 @@ def main():
                  "Greetings, what can I do for you?", "Hello, how can I help you today?"]
     goodbyes = ["See you later!", "Goodbye, have a great day!", "Goodbye, take care!", "Goodbye, see you soon!",
                 "Goodbye, have a nice day!"]
-    speak(random.choice(greetings))
+    tts.speak(random.choice(greetings))
 
     # Track last command time
     last_command_time = time.time()
@@ -117,11 +88,12 @@ def main():
             # Reset timer after notification
             last_command_time = time.time()
 
-        command = listen()
+        command = recognizer.listen()
         if "exit" in command.lower():
-            speak(random.choice(goodbyes))
+            tts.speak(random.choice(goodbyes))
             break
         activate_module(command.lower())
+
 
 def test_main_with_console_input():
     """
@@ -131,7 +103,7 @@ def test_main_with_console_input():
                  "Greetings, what can I do for you?", "Hello, how can I help you today?"]
     goodbyes = ["See you later!", "Goodbye, have a great day!", "Goodbye, take care!", "Goodbye, see you soon!",
                 "Goodbye, have a nice day!"]
-    speak(random.choice(greetings))
+    tts.speak(random.choice(greetings))
 
     # Track last command time
     last_command_time = time.time()
@@ -145,9 +117,10 @@ def test_main_with_console_input():
 
         command = input("Enter a command: ")
         if "exit" in command.lower():
-            speak(random.choice(goodbyes))
+            tts.speak(random.choice(goodbyes))
             break
         activate_module(command.lower())
+
 
 if __name__ == "__main__":
     # main()

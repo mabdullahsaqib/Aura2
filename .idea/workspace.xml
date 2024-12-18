@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="streamed speech using tts-1">
-      <change afterPath="$PROJECT_DIR$/src/utility.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/advanced_notfilications.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/advanced_notfilications.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/email_management.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entertainment_controls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entertainment_controls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/note_taking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/note_taking.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/personalized_recommendations.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/personalized_recommendations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/realtime_translation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/realtime_translation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/speech.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/task_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/task_management.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/weather_and_news.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/weather_and_news.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/web_browsing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/web_browsing.py" afterDir="false" />
-    </list>
+    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="centralized sr and tts" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +79,7 @@
       <workItem from="1734061484261" duration="677000" />
       <workItem from="1734063617778" duration="7000" />
       <workItem from="1734164681092" duration="4461000" />
-      <workItem from="1734509285613" duration="1073000" />
+      <workItem from="1734509285613" duration="1566000" />
     </task>
     <task id="LOCAL-00001" summary="streamed speech using tts-1">
       <option name="closed" value="true" />
@@ -102,7 +89,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734173793251</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="centralized sr and tts">
+      <option name="closed" value="true" />
+      <created>1734510646515</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1734510646515</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -110,7 +105,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="streamed speech using tts-1" />
-    <option name="LAST_COMMIT_MESSAGE" value="streamed speech using tts-1" />
+    <MESSAGE value="centralized sr and tts" />
+    <option name="LAST_COMMIT_MESSAGE" value="centralized sr and tts" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Aura2$speech.coverage" NAME="speech Coverage Results" MODIFIED="1734173731109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
