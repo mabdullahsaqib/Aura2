@@ -2,13 +2,10 @@
 
 import pyaudio
 from openai import OpenAI
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+from config import OPENAI_API_KEY
+import speech_recognition as sr
 
 # Load OpenAI API key
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("Missing OpenAI API key in environment variables.")
 
@@ -32,26 +29,31 @@ class TextToSpeech:
 
 # Centralized speech recognition
 class SpeechRecognizer:
+
+    recognizer = None
+
     def __init__(self):
-        import speech_recognition as sr
         self.recognizer = sr.Recognizer()
 
     def listen(self):
-        import speech_recognition as sr
 
         with sr.Microphone() as source:
-            print("Listening...")
             while True:
+                print("Listening...")
                 try:
                     audio = self.recognizer.listen(source)
                     command = self.recognizer.recognize_google(audio)
-                    print("Command:", command)
+                    print(f"Command: {command}")
                     return command
                 except sr.UnknownValueError:
-                    print("Sorry, I didn't catch that. Please try again.")
-                except sr.RequestError:
-                    print("Voice service unavailable. Please try later.")
-                    return ""
+                    continue
+                except sr.RequestError as e:
+                    print(f"Error: {e}")
+                except sr.WaitTimeoutError:
+                    continue
+                except Exception as e:
+                    print(f"Error: {e}")
+
 
 # Singleton instances
 tts = TextToSpeech()

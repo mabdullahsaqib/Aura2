@@ -1,9 +1,24 @@
 # realtime_translation.py
-from googletrans import Translator
 from utility import tts, recognizer
+from config import GEMINI_API_KEY
+import google.generativeai as genai
 
-# Initialize the translator
-translator = Translator()
+# Configure Gemini API
+genai.configure(api_key=GEMINI_API_KEY)
+
+# Initialize the Gemini model
+generation_config = {
+    "temperature": 1,
+    "top_p": 0.95,
+    "top_k": 40,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
+}
+
+model = genai.GenerativeModel(
+    model_name="gemini-2.0-flash-exp",
+    generation_config=generation_config,
+)
 
 def translate_text(text, target_language="en"):
     """
@@ -17,15 +32,13 @@ def translate_text(text, target_language="en"):
         str: The translated text.
     """
     try:
-        # Detect the original language
-        detected_language = translator.detect(text).lang
-        print(f"Detected language: {detected_language}")
 
-        # Translate the text to the target language
-        translated = translator.translate(text, dest=target_language)
-        print(f"Translated to {target_language}: {translated.text}")
-
-        return translated.text
+        response = model.generate_content(f"""
+        Translate the following text to {target_language}:
+        {text}
+        """)
+        translated_text = response.text
+        return translated_text
 
     except Exception as e:
         print(f"Error during translation: {e}")
@@ -43,15 +56,15 @@ def translation_voice_interaction():
         tts.speak("Please say something to translate...")
         text_to_translate = recognizer.listen()
 
-        if text_to_translate.lower() == "exit":
+        if "exit" in text_to_translate.lower():
             tts.speak("Exiting Real-Time Translation.")
             break
 
         print(f"Original Text: {text_to_translate}")
 
         # Ask the user for the target language
-        tts.speak("Which language would you like to translate to? For example, say 'French', 'Spanish', or 'English'.")
-        target_language = recognizer.listen().lower()
+        # tts.speak("Which language would you like to translate to? For example, say 'French', 'Spanish', or 'English'.")
+        target_language = "english" #recognizer.listen().lower()
 
         # Map spoken language names to language codes
         language_map = {

@@ -1,8 +1,9 @@
 # interaction_history.py
 from datetime import datetime
-from firebase_admin import firestore
+
 import google.generativeai as genai
-from utility import tts
+from firebase_admin import firestore
+
 from config import GEMINI_API_KEY
 
 # Initialize Firestore
@@ -10,6 +11,7 @@ db = firestore.client()
 
 # Configure GEMINI API
 genai.configure(api_key=GEMINI_API_KEY)
+
 
 # Function to get and increment session ID
 def get_next_session_id():
@@ -22,6 +24,7 @@ def get_next_session_id():
     next_id = current_id + 1
     counter_ref.set({"count": next_id})  # Update the counter in Firestore
     return next_id  # Use plain numeric ID
+
 
 # Retrieve Latest Session's History by ID
 def get_last_session_history():
@@ -43,11 +46,13 @@ def get_last_session_history():
 
     return history
 
+
 # GEMINI Interaction with History
 def initialize_chat_with_gemini(history):
     model = genai.GenerativeModel("gemini-1.5-flash")
     chat = model.start_chat(history=history)
     return chat
+
 
 # Save or Append to Continuous Chat in Firestore
 def save_to_chat(session_id: int, command: str, response: str):
@@ -55,17 +60,17 @@ def save_to_chat(session_id: int, command: str, response: str):
     new_message = {"timestamp": datetime.now(), "command": command, "response": response}
     chat_ref.set({"messages": firestore.ArrayUnion([new_message])}, merge=True)
 
+
 # Main Interaction Function
 def handle_user_command(session_id: int, command: str, chat):
     response = chat.send_message(command)
     save_to_chat(session_id, command, response.text)
-    tts.speak(f"Response: {response.text}")
     return response.text
+
 
 def interaction_history():
     # Initialize chat history
     session_id = get_next_session_id()
     history = get_last_session_history()
     chat = initialize_chat_with_gemini(history)
-    tts.speak("Interaction history loaded successfully.")
     return session_id, chat

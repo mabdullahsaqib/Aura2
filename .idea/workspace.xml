@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="centralized sr and tts" />
+    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="voice interaction with utility">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/voice_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/voice_interaction.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +82,8 @@
       <workItem from="1734061484261" duration="677000" />
       <workItem from="1734063617778" duration="7000" />
       <workItem from="1734164681092" duration="4461000" />
-      <workItem from="1734509285613" duration="1566000" />
+      <workItem from="1734509285613" duration="1943000" />
+      <workItem from="1734520306374" duration="43000" />
     </task>
     <task id="LOCAL-00001" summary="streamed speech using tts-1">
       <option name="closed" value="true" />
@@ -97,7 +101,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734510646515</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="voice interaction with utility">
+      <option name="closed" value="true" />
+      <created>1734511214772</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1734511214772</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -106,7 +118,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="streamed speech using tts-1" />
     <MESSAGE value="centralized sr and tts" />
-    <option name="LAST_COMMIT_MESSAGE" value="centralized sr and tts" />
+    <MESSAGE value="voice interaction with utility" />
+    <option name="LAST_COMMIT_MESSAGE" value="voice interaction with utility" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Aura2$speech.coverage" NAME="speech Coverage Results" MODIFIED="1734173731109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
