@@ -43,7 +43,7 @@ class SpeechRecognizer:
             while True:
                 print("Listening...")
                 try:
-                    audio = self.recognizer.listen(source, timeout=5)
+                    audio = self.recognizer.listen(source)
                     command = self.recognizer.recognize_google(audio)
                     print(f"Command: {command}")
                     return command
