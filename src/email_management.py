@@ -19,7 +19,8 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
-          'https://www.googleapis.com/auth/gmail.send']
+          'https://www.googleapis.com/auth/gmail.send',
+          'https://www.googleapis.com/auth/gmail.modify']
 
 
 def authenticate_gmail():
@@ -103,16 +104,31 @@ def send_email_with_generated_response(service, email_id):
         response = model.generate_content("Reply to this email: " + snippet)
         print("Generated Response:", response.text)
 
-        # Extract sender's email to reply to
+        # Extract sender's email and relevant headers to reply
         headers = {header['name']: header['value'] for header in message['payload']['headers']}
         sender_email = headers.get("From")
+        subject = headers.get("Subject", "No Subject")
+        message_id = headers.get("Message-ID")
 
-        # Send the response
-        send_email(service, sender_email, "Re: " + headers.get("Subject", "No Subject"), response.text)
+        # Create a MIME message with reply headers
+        reply_message = MIMEText(response.text)
+        reply_message['To'] = sender_email
+        reply_message['Subject'] = "Re: " + subject
+        if message_id:
+            reply_message['In-Reply-To'] = message_id
+            reply_message['References'] = message_id
+
+        raw_message = base64.urlsafe_b64encode(reply_message.as_bytes()).decode()
+
+        send_message = {'raw': raw_message}
+        sent_message = service.users().messages().send(userId='me', body=send_message).execute()
+        print(f"Reply sent! Id: {sent_message['id']}")
+        tts.speak("Your reply has been sent successfully.")
 
     except HttpError as error:
         print(f"An error occurred: {error}")
-        tts.speak("Failed to generate and send the reply. Please try again later.")
+        tts.speak("Failed to send the reply. Please try again later.")
+
 
 
 # Voice Interaction
@@ -139,3 +155,6 @@ def email_voice_interaction(command):
         tts.speak("What is the email ID?")
         email_id = recognizer.listen()
         send_email_with_generated_response(service, email_id)
+
+if __name__ == "__main__":
+    email_voice_interaction("fetch emails")
