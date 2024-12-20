@@ -15,11 +15,11 @@ from utility import tts, recognizer
 
 # Initialize Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash-exp")
 
 # Define the Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly',
-          'https://www.googleapis.com/auth/gmail.send',]
+          'https://www.googleapis.com/auth/gmail.send', ]
 
 
 def authenticate_gmail():
@@ -111,7 +111,8 @@ def send_email_with_generated_response(service, email_id):
         print(message)
 
         # Generate the reply content using Gemini
-        response = model.generate_content(f"Reply to this email. This reply will be sent directly without any editing, so don't include any editable parameters.\n\n  {message}")
+        response = model.generate_content(
+            f"Reply to this email. This reply will be sent directly without any editing, so don't include any editable parameters.\n\n  {message}")
         print("Generated Response:", response.text)
 
         # Create a reply email with the required headers
@@ -140,7 +141,6 @@ def send_email_with_generated_response(service, email_id):
         tts.speak("Failed to send the reply. Please try again later.")
 
 
-
 # Voice Interaction
 def email_voice_interaction(command):
     creds = authenticate_gmail()
@@ -152,7 +152,8 @@ def email_voice_interaction(command):
             "email" in command or "mail" in command):
         tts.speak("Who is the recipient? What is the subject? and What is the message?")
         text = recognizer.listen()
-        response = model.generate_content("Return the recipient's email (make sure the email is in correct format), the subject of the email, and the message to be sent from the following user input with comma as a separator. Don't include anything else.\n User input : " + text)
+        response = model.generate_content(
+            "Return the recipient's email (make sure the email is in correct format), the subject of the email, and the message to be sent from the following user input with comma as a separator. Don't include anything else.\n User input : " + text)
         to_email, subject, message_text = response.text.split(",")
         print(f"Is this the email you want to send?\nTo: {to_email}\nSubject: {subject}\nMessage: {message_text}")
         tts.speak(f"Is this the email you want to send?")
@@ -174,6 +175,7 @@ def email_voice_interaction(command):
         tts.speak("Enter the email ID.")
         email_id = input("Enter the email ID: ")
         send_email_with_generated_response(service, email_id)
+
 
 if __name__ == "__main__":
     # email_voice_interaction("fetch emails")

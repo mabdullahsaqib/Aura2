@@ -1,16 +1,19 @@
 # note_taking.py
 from datetime import datetime
-from firebase_admin import firestore
+
 import google.generativeai as genai
-from utility import tts, recognizer
+from firebase_admin import firestore
+
 from config import GEMINI_API_KEY
+from utility import tts, recognizer
 
 # Initialize Firestore
 db = firestore.client()
 
 # Initialize Gemini model
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash-exp")
+
 
 def get_next_note_id():
     """
@@ -22,6 +25,7 @@ def get_next_note_id():
     next_id = current_id + 1
     counter_ref.set({"count": next_id})  # Update the counter in Firestore
     return next_id  # Use plain numeric ID
+
 
 def add_note(title, content, tags=None):
     """
@@ -44,6 +48,7 @@ def add_note(title, content, tags=None):
     note_ref.set(note_data)
     print("Note added successfully!")
     tts.speak("Note added successfully.")
+
 
 def retrieve_notes(note_id=None, keyword=None, tag=None, date_range=None):
     """
@@ -76,6 +81,7 @@ def retrieve_notes(note_id=None, keyword=None, tag=None, date_range=None):
 
     return notes
 
+
 def retrieve_all_notes():
     """
     Retrieves and displays all notes by their IDs and titles.
@@ -92,6 +98,7 @@ def retrieve_all_notes():
 
     return all_notes
 
+
 def summarize_note(note_content):
     """
     Summarizes a single note's content using Gemini.
@@ -105,6 +112,7 @@ def summarize_note(note_content):
     response = model.generate_content("Summarize the following text: " + note_content)
     return response.text
 
+
 def delete_note(note_id):
     """
     Deletes a note by note_id.
@@ -115,6 +123,7 @@ def delete_note(note_id):
     db.collection("notes").document(note_id).delete()
     print("Note deleted successfully!")
     tts.speak("Note deleted successfully.")
+
 
 def edit_note(note_id, new_title=None, new_content=None, new_tags=None):
     """
@@ -139,9 +148,10 @@ def edit_note(note_id, new_title=None, new_content=None, new_tags=None):
     print("Note updated successfully!")
     tts.speak("Note updated successfully.")
 
+
 # Voice Interaction
 def note_voice_interaction(choice):
-    if "add" in choice:
+    if "add" in choice or "create" in choice or "new" in choice or "make" in choice or "write" in choice or "record" in choice or "take" in choice:
         tts.speak("Please say the note title.")
         title = recognizer.listen()
         tts.speak("Please say the note content.")
@@ -166,13 +176,13 @@ def note_voice_interaction(choice):
         for note in notes:
             print(f"Note ID: {note['note_id']}, Title: {note['title']}, Content: {note['content']}")
 
-    elif "retrieve all" in choice:
+    elif "retrieve all" in choice or "all notes" in choice or "all" in choice:
         notes = retrieve_all_notes()
         tts.speak("All notes retrieved. Check the console for details.")
         for note in notes:
             print(f"Note ID: {note['note_id']}, Title: {note['title']}")
 
-    elif "summarize" in choice:
+    elif "summarize" in choice or "summary" in choice:
         tts.speak("Please say the note ID to summarize.")
         note_id = recognizer.listen()
         note = db.collection("notes").document(note_id).get()
@@ -183,12 +193,12 @@ def note_voice_interaction(choice):
         else:
             tts.speak("Note not found.")
 
-    elif "delete" in choice:
+    elif "delete" in choice or "remove" in choice or "erase" in choice or "clear" in choice:
         tts.speak("Please say the note ID to delete.")
         note_id = recognizer.listen()
         delete_note(note_id)
 
-    elif "edit" in choice:
+    elif "edit" in choice or "update" in choice or "change" in choice or "modify" in choice:
         tts.speak("Please say the note ID to edit.")
         note_id = recognizer.listen()
         tts.speak("Please say the new title or say 'skip' to leave unchanged.")

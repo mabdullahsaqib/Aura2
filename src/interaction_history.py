@@ -49,7 +49,7 @@ def get_last_session_history():
 
 # GEMINI Interaction with History
 def initialize_chat_with_gemini(history):
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.0-flash-exp")
     chat = model.start_chat(history=history)
     return chat
 

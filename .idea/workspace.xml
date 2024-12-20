@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="added email replies">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="improved email sending and replying">
+      <change beforePath="$PROJECT_DIR$/src/custom_commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/custom_commands.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/email_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/email_management.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interaction_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/interaction_history.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/note_taking.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/note_taking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/task_management.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/task_management.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +88,7 @@
       <workItem from="1734509285613" duration="1943000" />
       <workItem from="1734520306374" duration="4041000" />
       <workItem from="1734587901866" duration="203000" />
-      <workItem from="1734693063555" duration="4830000" />
+      <workItem from="1734693063555" duration="5499000" />
     </task>
     <task id="LOCAL-00001" summary="streamed speech using tts-1">
       <option name="closed" value="true" />
@@ -152,7 +154,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734693855438</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="improved email sending and replying">
+      <option name="closed" value="true" />
+      <created>1734698198760</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1734698198760</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,12 +177,13 @@
     <MESSAGE value="Finish setup" />
     <MESSAGE value="weather and sr" />
     <MESSAGE value="added email replies" />
-    <option name="LAST_COMMIT_MESSAGE" value="added email replies" />
+    <MESSAGE value="improved email sending and replying" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved email sending and replying" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Aura2$speech.coverage" NAME="speech Coverage Results" MODIFIED="1734173731109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/Aura2$email_management.coverage" NAME="email_management Coverage Results" MODIFIED="1734698059822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/Aura2$voice_interaction.coverage" NAME="voice_interaction Coverage Results" MODIFIED="1734525123267" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Aura2$email_management.coverage" NAME="email_management Coverage Results" MODIFIED="1734698147625" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Aura2$voice_interaction.coverage" NAME="voice_interaction Coverage Results" MODIFIED="1734699234739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Aura2$meeting_summaries.coverage" NAME="meeting_summaries Coverage Results" MODIFIED="1734023914979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>
