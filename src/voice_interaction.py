@@ -44,7 +44,7 @@ def activate_module(command):
         task_voice_interaction(command)
     elif "web" in command or "search" in command or "browse" in command:
         web_browsing_voice_interaction(command)
-    elif "note" in command:
+    elif "note" in command or "notes" in command:
         note_voice_interaction(command)
     elif "translation" in command or "translate" in command:
         translation_voice_interaction()
