@@ -1,3 +1,5 @@
+(This is a new and improved version of AURA. Hence, AURA 2.0)
+
 # Aura: Your Voice-Activated AI Assistant
 
 Aura is an advanced voice-command-based AI assistant designed to streamline tasks and enhance productivity on your personal computer. Utilizing Google's GEMINI model for AI functionalities, Aura can perform a wide range of tasks entirely through voice commands.
