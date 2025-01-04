@@ -119,7 +119,7 @@ def meeting_summary_voice_interaction(command):
     else:
         tts.speak("What's the name of the audio file?")
         audio_file = recognizer.listen()
-        audio_file_path = findfile(audio_file, "Meetings")
+        audio_file_path = findfile(audio_file, "./Meetings")
         if audio_file_path:
             tts.speak(f"Processing the meeting summary from the file located at {audio_file_path}.")
             title = Path(audio_file_path).stem

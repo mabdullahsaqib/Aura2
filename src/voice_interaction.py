@@ -40,13 +40,13 @@ def activate_module(command):
     Activate the appropriate module based on the user's command.
     """
 
-    if "task" in command:
+    if "task" in command or "reminder" in command or "schedule" in command or "to-do" in command or "tasks" in command:
         task_voice_interaction(command)
-    elif "web" in command or "search" in command or "browse" in command:
+    elif "web" in command or "search" in command or "browse" in command and "youtube" not in command:
         web_browsing_voice_interaction(command)
-    elif "note" in command or "notes" in command:
+    elif ("note" in command or "notes" in command or "record" in command or "write" in command) and "notepad" not in command:
         note_voice_interaction(command)
-    elif "translation" in command or "translate" in command:
+    elif "translation" in command or "translate" in command or "interpret" in command:
         translation_voice_interaction()
     elif "email" in command or "mail" in command or "inbox" in command:
         email_voice_interaction(command)
@@ -96,3 +96,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

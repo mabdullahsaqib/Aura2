@@ -88,7 +88,7 @@ def delete_task(task_title):
 
 # Voice Interaction
 def task_voice_interaction(command):
-    if "add" in command:
+    if "add" in command or "create" in command or "new" in command or "make" in command or "write" in command or "record" in command or "take" in command:
         tts.speak("What is the task description?")
         task_description = recognizer.listen()
         tts.speak("What is the deadline?")
@@ -106,13 +106,13 @@ def task_voice_interaction(command):
         category = recognizer.listen()
         get_tasks_by_category(category.lower())
 
-    elif "upcoming" in command:
+    elif "upcoming" in command or "deadline" in command or "due" in command:
         tts.speak("Specify the deadline for upcoming tasks.")
-        deadline_input = recognizer.listen()
-        deadline_date = dateparser.parse(deadline_input)
+        deadline_input = recognizer.listen() or None
+        deadline_date = dateparser.parse(deadline_input) or "tomorrow"
         get_upcoming_tasks(deadline_date)
 
-    elif "delete" in command:
+    elif "delete" in command or "remove" in command or "erase" in command:
         tts.speak("What is the title of the task you would like to delete?")
         task_title = recognizer.listen()
         delete_task(task_title)

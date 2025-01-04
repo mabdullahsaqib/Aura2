@@ -36,8 +36,6 @@ def check_and_execute_command(command_name):
 
         if user_confirm and "yes" in user_confirm:
             # Step 3: Get command description from the user
-            tts.speak(f"Please assign a command name.")
-            command_name = recognizer.listen()
             tts.speak(f"Please describe what '{command_name}' should do.")
             command_description = recognizer.listen()
 
@@ -53,6 +51,7 @@ def check_and_execute_command(command_name):
 
                 # Confirm the suggested command with the user
                 tts.speak(f"Suggested command: {suggested_command}")
+                print(f"Suggested command: {suggested_command}")
                 tts.speak("Would you like to save this command?")
                 final_confirm = recognizer.listen()
 

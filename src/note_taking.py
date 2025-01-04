@@ -90,11 +90,11 @@ def retrieve_all_notes():
         list: A list of dictionaries containing note IDs and titles.
     """
     notes = db.collection("notes").stream()
-    all_notes = [{"note_id": note.id, "title": note.to_dict().get("title", "Untitled")} for note in notes]
+    all_notes = [note.to_dict() for note in notes]
 
     print("\nAll Notes:")
     for note in all_notes:
-        print(f"Note ID: {note['note_id']}, Title: {note['title']}")
+        print(f"Note ID: {note['note_id']}, Title: {note['title']}, Tags: {note['tags']}, Content: {note['content']}")
 
     return all_notes
 
@@ -164,19 +164,25 @@ def note_voice_interaction(choice):
             tags = None
         add_note(title, content, tags)
 
-    elif "retrieve" in choice and "all" not in choice:
+    elif ("retrieve" in choice or "get" in choice) and "all" not in choice:
         tts.speak("Please say the note ID to retrieve or leave blank.")
         note_id = recognizer.listen() or None
+        if "blank" in note_id.lower():
+            note_id = None
         tts.speak("Please say a keyword or leave blank.")
         keyword = recognizer.listen() or None
+        if "blank" in keyword.lower():
+            keyword = None
         tts.speak("Please say a tag to filter by, or leave blank.")
         tag = recognizer.listen() or None
+        if "blank" in tag.lower():
+            tag = None
         notes = retrieve_notes(note_id=note_id, keyword=keyword, tag=tag)
         tts.speak("Notes retrieved. Check the console for details.")
         for note in notes:
             print(f"Note ID: {note['note_id']}, Title: {note['title']}, Content: {note['content']}")
 
-    elif "retrieve all" in choice or "all notes" in choice or "all" in choice:
+    elif "retrieve all" in choice or "all notes" in choice or "all" in choice or "get" in choice:
         notes = retrieve_all_notes()
         tts.speak("All notes retrieved. Check the console for details.")
         for note in notes:

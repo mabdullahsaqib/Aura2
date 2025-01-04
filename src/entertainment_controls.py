@@ -126,7 +126,7 @@ def handle_command(command, input_text=None):
 
 # Voice Interaction
 def entertainment_control_voice_interaction(command):
-    if "play" in command:
+    if "play" in command or "search" in command or "open" in command:
         tts.speak("What do you want to play today?")
         media_name = recognizer.listen()
         tts.speak("Where do you want to play it (Spotify, YouTube, local)?")

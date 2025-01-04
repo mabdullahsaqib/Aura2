@@ -103,4 +103,4 @@ def web_browsing_voice_interaction(query):
         if "yes" in response:
             open_link(results)
         else:
-            tts.speak("Returning to search query mode. Please provide another query or say 'exit' to quit.")
+            tts.speak("No link selected. Ending search.")
