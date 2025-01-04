@@ -4,6 +4,7 @@ from datetime import datetime
 import dateparser
 import google.generativeai as genai
 from firebase_admin import firestore
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 from config import GEMINI_API_KEY
 from utility import tts, recognizer
@@ -49,7 +50,7 @@ def add_task_from_input(task_description, deadline):
 
 # Get tasks by priority
 def get_tasks_by_priority(priority):
-    tasks = db.collection("tasks").where("priority", "==", priority).stream()
+    tasks = db.collection("tasks").where(filter=FieldFilter("priority", "==", priority)).stream()
     task_list = [task.to_dict() for task in tasks]
 
     tts.speak(f"Tasks with priority '{priority}' are being displayed on the console")
@@ -60,7 +61,7 @@ def get_tasks_by_priority(priority):
 
 # Get tasks by category
 def get_tasks_by_category(category):
-    tasks = db.collection("tasks").where("category", "==", category).stream()
+    tasks = db.collection("tasks").where(filter=FieldFilter("category", "==", category)).stream()
     task_list = [task.to_dict() for task in tasks]
 
     tts.speak(f"Tasks in category '{category}' are being displayed on the console")
@@ -71,7 +72,7 @@ def get_tasks_by_category(category):
 
 # Get upcoming tasks
 def get_upcoming_tasks(deadline_date):
-    tasks = db.collection("tasks").where("deadline", "<=", deadline_date).order_by("deadline").stream()
+    tasks = db.collection("tasks").where(filter=FieldFilter("deadline", "<=", deadline_date)).order_by("deadline").stream()
     upcoming_tasks = [task.to_dict() for task in tasks]
 
     tts.speak("Here are the upcoming tasks")
