@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="Removed api key">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f6a9f14e-90e6-4d1e-a6f6-78c33f8a5232" name="Changes" comment="Removed api key" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,6 +100,7 @@
       <workItem from="1736001644630" duration="240000" />
       <workItem from="1736001904794" duration="11591000" />
       <workItem from="1736893336491" duration="359000" />
+      <workItem from="1742375800857" duration="96000" />
     </task>
     <task id="LOCAL-00001" summary="streamed speech using tts-1">
       <option name="closed" value="true" />
